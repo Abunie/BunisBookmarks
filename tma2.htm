@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "utf-8">
+    <title>Abuni Gaiya's Assignment 1 coverpage</title>
+    <link rel="stylesheet" href="shared/style.css">
+    
+
+    </head>
+    <body>
+        <header>
+        <div class="topnav" style="text-align: center; align-content: center">
+       
+            <h2 style="color:aliceblue">Course name and Number: Computer Science 466</h2>
+            <h2 style="color:aliceblue">Assignment number: 2</h2>
+            <h2 style="color:aliceblue">Student Name: Abuni Gaiya</h2>
+            <h2 style="color:aliceblue">Student ID number: 3420317</h2>
+            <h2 style="color:aliceblue">Start Date: 2021-03-23</h2>
+            <h2 style="color:aliceblue">Finsh Date: 2021-04-20</h2>
+            <h2 style="color:aliceblue">Estimated hours : 100 hours</h2>
+            <br/>
+            <div style="padding: 15px;">
+                  <a class="tma" href="#part1">Part 1</a>
+                  <a class="tma" href="#part2">Part 2</a>    
+             </div>   
+        </div>   
+        </header>
+        <div>
+            <h2 id="intro">Introduction</h2>
+            <p> This project is the second assignment of Comput 466, submitted by Abuni Gaiya. The project contains two sub assignments namely, <a href="http://myhairregimen.com/TMA2/part1/welcome.php">Part 1 : An Online Bookmarking Service  </a> and <a href="http://myhairregimen.com/TMA2/part2/welcome.php">Part 2: An Online Learning Management System </a>. In this report I would be giving a brief description of each part of the sub projects, my analysis and design of the web application, a documentation of my implementation and a user guise for setting up and running the application.</p>    
+       </div>
+        <div>
+            <h2 id="part1">Part 1 : An Online Bookmarking Service</h2>
+            
+            <h4> Description</h4>
+             The aim of this part of the assigment was to create an online bookmarking web application for users on the Internet. The web application needs to hace a good thoughtful interface with naviagation butios and a logo shown across all the pages. It should also begin with a welcome greeting message and a list of ten most popular websites that users of the web application have bookmarked. Once signed in a list of bookmarks the user has made should be displayed and the user can browse any web site by clicking on the link from the site. Users should be able to add, edit and delete bookmarks. The bookmarks also need to validated when adding and editing.
+       
+            <h4> Analysis and Design</h4>
+            <p> This web application dominatately consists of php files that communicate with a database called bookmarkDB which consists of two tables called bookmarks and users. The bookmark table contains three fields BookmarkID (which is unique for every bookmark) , UserID( the user who added the bookmark) and Url(which is the bookmark link). The user table contains the UserID, Username and Password.</p>
+            <p> When the user first launches the application it takes them to the welcome page which displays the list of the top 10 bookmarks. On the backend I am just using an sql to count the number of times all the urls in the database appear, arrange them based on the one that appears the most and return the first 10 in that list. The welcome page also has two buttons the sign in and sign up button. This buttons allow users to create new accounts or sign in with their old account. Here I take in the username and password (hashed using MD5) and append them to a post request which then redirect to the login.php or register.php file. The register.php and the login.php then added the user to the database if that user doesn't already exist or check is the users MD5 hashed password matches the one on the database repectively. Both processes start a session for the logged user.</p>
+            <p>Now that the user is logged in, I run an sql statement to retrieve all the bookmarks on the bookmark table where the user id is same as that of the logged user. This is how the bookmarks are displayed for each user. Now the user can add, delete or edit their bookmarks, and in the back end the respective sql queries are run to reflect this on the database and on the user's screen. The runtime for these queries are quite fast. For the add and edit functions and extra javascript function is written to ensure that a valid url has been added. Lastly, if the user tries to add a url that has already been added the add.php or edit.php file would detect this and redirect the user back to their home page without adding that url.
+            </p>
+     
+            <h4> Documentation of Implementation </h4>
+             <p>This project consists uses php files to display the webpage and communicate with the database. Here I would give a brief breakdown of all the files and what they do: </p>
+             <h5>Databse files</h5>
+            <p> The two major database files in this part are database.php and database.sql.</p>
+            <ol>
+                <li><u>database.sql:</u>This is the initial sql script which I ran on XXAMP to create the database and tables.</li>
+                <li><u>database.php:</u>The major role of this file is to create and initial connection with the database we would be commnunicating with. For this I use the defualt login details that ever XXAMP server has host--> localhost , username --> root, database--> bookmarkDB (in our case), password --> ''. These details might change depending on the server you are running the web application on.</li>
+                This part of the project also consists of the database that stores all the user and bookmark information for the web application, below I have shown a diagram of the database schema for this project.
+                <img src="shared/tma/bookmark_db.png"/>
+           </ol>
+           <p>The next part of this project are the login/ register files, Fot this part I have 5 files sign_in.php, sign_out.php, sign_up.php, sign_in_page.php, sign_out_page.php. Each files is explained in detail below: </p>
+            <ol>
+                <li><u>sign_in.php:</u>This contains the backend part of the sign in functionality. Here the sql query is run to allow the user sign in. And a new session begins.</li>
+                <li><u>sign_out.php:</u>This contains the backend part of the sign out functionality. All this file does it end the user session.</li>
+                <li><u>sign_up.php:</u>This contains the backend part of the sign up functionality. Here the sql query is run to allow the user sign up.And a new session begins.</li>
+                <li><u>sign_in_page.php:</u>This shows the frontend of the sign in page. It collects the user input via an html form and sends them to sign_in.php via a post method.</li>
+                <li><u>sign_up_page.php:</u>This shows the frontend of the sign up page. It collects the user input via an html form and sends them to sign_up.php via a post method.</li>  
+           </ol>
+            <p>Next we have the major pages the welcome page and the home page, which are implementented in welcome.php and home.php respectively:
+            </p>
+            <ol>
+                <li><u>welcome.php:</u>This file contains both frontend and backend code the layout of the page is in html format and php code snippets are added to display the top 10 bookmarks.</li>
+                <li><u>home.php:</u>Just like the welcome page this page contains both frontend and backend code. A php snippet is inserted to display the user's username and welcome him/her and another snippet is added to display that users bookmarks. If the user needs to add, delete, or edit a bookmark they can click on the respective button and the add.php, edit.php or delete.php is called .</li>
+           </ol>
+            <p> Finally we have the add, edit and delete pages that let's the user add, edit and delete their bookmarks</p>
+            <ol>
+                <li><u>add.php:</u>Given a user id and a url via a post method this file creates a new bookmark.</li>
+                <li><u>edit.php:</u>Given a bookmark id and a url via a post method this file update the old url for that id with the new url given.</li>
+                <li><u>delete.php:</u>Given a user id and a bookmark id via a post method this file deletes a bookmark form the database.</li>    
+           </ol>
+            <p> Other files in this project include; error.php and username_taken.php which as the names imply are designed for cases where there is an error or the user tries to sign up with a username already in use.</p>
+            
+   
+            <h4> User Guide </h4>
+            There are two ways to run this program:
+            <ol>
+                <li> The first way would be to run it on your local server using the instructions in this  <a href="https://studyopedia.com/php/run-first-php-program-xampp-server/"> tutorial </a>,using the database.sql to import the databse on your loacal computer</li>
+                <li>The easier option is to click on this <a href="http://myhairregimen.com/TMA2/part1/welcome.php">link </a> or the button below to view the project on a live web server.</li>  
+                <br/>
+               <button onclick="window.location.href='http://myhairregimen.com/TMA2/part1/welcome.php'"> Click To View Part 1</button>
+           </ol>        
+       </div>
+        
+        <div>
+            <h2 id="part2">Part 2: An Online Learning Management System </h2>
+            <h4> Description</h4>
+            The aim of this project was to build an online learning managaement system that stores teaching content as educational markup language in a database and uses a php parser to parse the content when extracted from the database.  
+ 
+            <h4> Analysis and Design</h4>
+             I designed the structure of this project mainly based on the major requirements given in the assignment description. First I created a database that stored the course content as EML. Then using a php parse I parsed the each of the data gotten from the database and displayed it for the user to view. 
+             Here is a breakdown of the design for this section:
+            <ul>
+                <li><u> Database Design and EML</u> The database for this project consisted of 4 tables:courses, units, users and users_hascourses as shown below. <img src="shared/tma/academydb.png"/>. <br>The course table is a simple table that contains each course and its decription, the course units are stored in a different table called the units table, this allows a course to have more than one units. On the units table, there are 5 fields, the unitid, the unitname, the course that the unit belongs to, the teaching content and the quiz content. The teaching and the quiz content are stored in the database as EML's as shown in the image below. Please note that the image below shows the shortest unit on the system and other units are much longer than that.<br><img src="shared/tma/units_entry.png"/> </li>
+                <li><u>Parser</u> The parser was used to break down the EML structure into html. I implemented my parser files like loadtopic.php and quiz.php. Please I have shown an example of how my parsers are implemented. <img src="shared/tma/parser.png"/> </li>
+                <li><u>Learning content and quiz:</u>  The learning content and quizzes for this project are similar to the content from part 2 in assignment 1. Expect that for this system I added an extra course to demonstrate what it is like for a user to be registered in two courses on the database. The content for these are stored as EML's in the database and then parsed and displayed to the user.
+                </li>
+            </ul>
+        
+             
+            <h4> Documentation of Implementation </h4>
+            <p> I divided this part of the project into 3 different sections: </p>
+             <ol>
+                 <li> <b>The database files </b>
+                     <ul>
+                         <li><u>database.php:</u> Just like in part 1 this file basically handles connecting to the database.
+                         </li>
+                         <li>
+                             <u>database.sql:</u> This is the file run to create the database and tables.
+                         </li>
+                     </ul>
+                 </li>
+                 <li> <b>The Server files </b>
+                     <ul>
+                         <li><u>login.php:</u> Just like in part 1 this file basically handles connecting to the database.
+                         </li>
+                         <li>
+                             <u>logout.php:</u> This is the file run to create the database and tables.
+                         </li>
+                         <li>
+                             <u>register.php:</u>Given the a username and a password this file runs an sql query that registers the user.
+                         </li>
+                         <li>
+                             <u>registerclass.php:</u> Given a user id and a course id this file enrolls a user in a class.
+                         </li>
+                         <li>
+                             <u>notlogged.php:</u> This is where a user is redirected to when they try to access a page that they can only view when logged in.
+                         </li>
+                         <li>
+                             <u>forbidden.php:</u> This is where the user is redirected to when they try to view a forbidden page.
+                         </li>
+                     </ul>
+                 </li>
+                   <li> <b>The Frontend files </b>
+                     <ul>
+                         <li><u>welcome.php:</u> Just like in part 1 this file basically handles connecting to the database.
+                         </li>
+                         <li>
+                             <u>registerpage.php:</u> This is the file run to create the database and tables.
+                         </li>
+                         <li>
+                             <u>main.php:</u> This file extracts the courses a specific user is registered in from the courses table and users_has_courses table and displays it to the user.
+                         </li>
+                         <li>
+                             <u>loadtopic.php:</u> Given a unit id this file extracts the teaching content for a unit , parses it and displays it to the user.
+                         </li>
+                         <li>
+                             <u>quiz.php:</u> Given a unit id this file extracts the content for the quiz , parses it and displays it to the user.
+                         </li>
+                         <li>
+                             <u>courses.php:</u>This page extracts the courses,their descriptions and thier units from both the courses table and the units table and displays it to the user.
+                         </li>
+                     </ul>
+                 </li>
+            </ol>
+                 
+            <h4> User Guide </h4>
+             There are two ways to run this program:
+            <ol>
+                <li> The first way would be to run it on your local server using the instructions in this  <a href="https://studyopedia.com/php/run-first-php-program-xampp-server/"> tutorial </a>,using the database.sql to import the databse on your loacal computer</li>
+                <li>The easier option is to click this <a href="http://myhairregimen.com/TMA2/part2/welcome.php">link </a> or the button below to view the project on a live web server.</li>  
+                <br/>
+               <button onclick="window.location.href='http://myhairregimen.com/TMA2/part2/welcome.php'"> Click To View Part 2</button>
+           </ol> 
+            
+       </div> 
+    </body>
+</html>
